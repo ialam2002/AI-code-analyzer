@@ -1,0 +1,179 @@
+/* Responsive design utilities */
+
+@media (max-width: 1200px) {
+  .app-container {
+    padding: 1rem;
+  }
+
+  .editor-controls {
+    gap: 0.5rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 0.6rem 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .app {
+    flex-direction: column;
+  }
+
+  main {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .editor,
+  .results {
+    min-height: 400px;
+    flex: 1;
+  }
+
+  .editor-textarea {
+    font-size: 1rem; /* Prevent zoom on iOS */
+  }
+
+  .file-upload {
+    padding: 1.5rem;
+    min-height: 120px;
+  }
+
+  .upload-icon {
+    font-size: 2rem;
+  }
+
+  .header-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .logo-section {
+    text-align: center;
+    width: 100%;
+  }
+
+  .header-controls {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .report-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .issue-count {
+    align-self: flex-start;
+  }
+
+  .controls {
+    flex-direction: column;
+  }
+
+  button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+
+  .logo-section h1 {
+    font-size: 1.1rem;
+  }
+
+  .subtitle {
+    font-size: 0.75rem;
+  }
+
+  .editor-container,
+  .results-container {
+    border-radius: 4px;
+  }
+
+  .editor-header,
+  .results-header {
+    padding: 0.75rem;
+  }
+
+  .editor-textarea {
+    padding: 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .file-upload {
+    padding: 1rem;
+    min-height: 100px;
+  }
+
+  .file-report {
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .issue-item {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .char-count {
+    font-size: 0.75rem;
+  }
+
+  .upload-icon {
+    font-size: 1.5rem;
+  }
+
+  .upload-content p {
+    font-size: 0.85rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .header,
+  .controls,
+  .theme-toggle {
+    display: none;
+  }
+
+  .file-report {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .editor-textarea {
+    border: none;
+    background: white;
+    color: black;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: more) {
+  :root {
+    --border-color: #000;
+    --text-primary: #000;
+    --accent: #0000ff;
+  }
+
+  [data-theme="dark"] {
+    --border-color: #fff;
+    --text-primary: #fff;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+

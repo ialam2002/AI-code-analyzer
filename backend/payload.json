@@ -1,0 +1,2 @@
+{"files": {"smoke.py": "import sys\n\nprint(\"smoke test\")\n"}}
+
