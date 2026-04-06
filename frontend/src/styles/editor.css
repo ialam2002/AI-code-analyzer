@@ -3,44 +3,69 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: var(--bg-secondary);
-  border-radius: 8px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
+  animation: enter-up 280ms ease-out;
 }
 
 .editor-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
   background: var(--bg-tertiary);
   border-bottom: 1px solid var(--border-color);
 }
 
 .editor-header h2 {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1rem;
+  font-weight: 700;
   color: var(--text-primary);
 }
 
+.editor-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.editor-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-light);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  padding: 0.25rem 0.45rem;
+  border-radius: 6px;
+}
+
 .char-count {
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   color: var(--text-secondary);
-  background: var(--bg-secondary);
-  padding: 0.25rem 0.75rem;
-  border-radius: 12px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
 }
 
 .editor-textarea {
   flex: 1;
-  padding: 1rem;
+  padding: 1rem 1.1rem;
   border: none;
-  background: var(--bg-primary);
+  background: transparent;
   color: var(--text-primary);
   font-family: "Fira Code", monospace;
-  font-size: 0.9rem;
-  line-height: 1.5;
+  font-size: 0.87rem;
+  line-height: 1.6;
   resize: none;
   outline: none;
 }
@@ -59,18 +84,30 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
-  background: var(--bg-secondary);
+  padding: 1.5rem;
+  background: var(--bg-surface);
   border: 2px dashed var(--border-color);
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  min-height: 150px;
+  transition: all 0.2s ease;
+  min-height: 138px;
 }
 
 .file-upload.active {
   background: var(--accent-light);
   border-color: var(--accent);
+}
+
+.file-upload:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent-light) 55%, var(--bg-surface));
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.file-upload.disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 .upload-label {
@@ -83,18 +120,38 @@
 }
 
 .upload-icon {
-  font-size: 2.5rem;
-  display: block;
-  margin-bottom: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.25rem;
+  color: var(--accent);
+  transition: transform 0.2s ease;
+}
+
+.file-upload:hover .upload-icon {
+  transform: translateY(-1px) scale(1.04);
 }
 
 .upload-content p {
-  margin: 0.5rem 0;
+  margin: 0.35rem 0;
   color: var(--text-primary);
 }
 
 .upload-hint {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
+}
+
+.upload-selected {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--success);
+  border: 1px solid color-mix(in srgb, var(--success) 35%, var(--border-color));
+  background: color-mix(in srgb, var(--success) 12%, transparent);
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
 }
 

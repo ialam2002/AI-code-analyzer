@@ -32,6 +32,23 @@ button {
   font-size: 0.95rem;
 }
 
+.btn-icon {
+  flex-shrink: 0;
+}
+
+.spin {
+  animation: icon-spin 0.9s linear infinite;
+}
+
+@keyframes icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -53,7 +70,9 @@ input:focus, textarea:focus {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: var(--bg-primary);
+  background:
+    radial-gradient(circle at top right, var(--bg-accent-soft) 0%, transparent 36%),
+    var(--bg-primary);
 }
 
 .app-header {
@@ -63,20 +82,20 @@ input:focus, textarea:focus {
 .app-main {
   flex: 1;
   overflow-y: auto;
-  background: var(--bg-primary);
+  background: transparent;
 }
 
 .container {
-  max-width: 1400px;
+  max-width: 1320px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2rem 2rem 2.25rem;
   width: 100%;
 }
 
 main.app-main .container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 1.5rem;
   height: 100%;
 }
 
@@ -84,38 +103,117 @@ main.app-main .container {
   display: flex;
   flex-direction: column;
   height: 100%;
+  min-height: 0;
 }
 
 .editor-section {
   gap: 1rem;
 }
 
+.workspace-intro {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow-sm);
+  animation: enter-up 260ms ease-out;
+}
+
+.workspace-intro h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.workspace-intro p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
 .controls {
   display: flex;
   gap: 1rem;
-  flex-wrap: wrap;
+  align-items: center;
+  animation: enter-up 320ms ease-out;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  background: var(--bg-surface);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.status-pill:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.status-icon {
+  flex-shrink: 0;
+}
+
+.status-pill.ready {
+  border-color: color-mix(in srgb, var(--success) 35%, var(--border-color));
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 12%, transparent);
+}
+
+.status-pill.auth-required {
+  border-color: color-mix(in srgb, var(--warning) 35%, var(--border-color));
+  color: #a16207;
+  background: color-mix(in srgb, var(--warning) 18%, transparent);
 }
 
 .analyze-btn {
-  background: linear-gradient(135deg, var(--accent) 0%, #0052cc 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
   color: white;
-  padding: 0.75rem 2rem;
-  font-size: 1rem;
+  padding: 0.8rem 1.5rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
+  border-radius: 10px;
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.24);
   transition: all 0.3s ease;
-  flex: 1;
+  margin-left: auto;
+  min-width: 170px;
   min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
 }
 
 .analyze-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 102, 255, 0.4);
+  box-shadow: 0 14px 26px rgba(37, 99, 235, 0.32);
 }
 
 .analyze-btn:active:not(:disabled) {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.99);
+}
+
+.analyze-btn:disabled {
+  background: var(--bg-tertiary);
+  color: var(--text-tertiary);
+  box-shadow: none;
+}
+
+@keyframes enter-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 ::-webkit-scrollbar {
@@ -171,9 +269,15 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 
   .analyze-btn {
     width: 100%;
+    margin-left: 0;
   }
 
   .controls {
     flex-direction: column;
+    align-items: stretch;
+  }
+
+  .status-pill {
+    justify-content: center;
   }
 }

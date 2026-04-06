@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Loader2, Lock, ShieldCheck, ScanSearch } from "lucide-react";
 import { Header } from "./components/Header";
 import { Editor } from "./components/Editor";
 import { ResultsPanel } from "./components/ResultsPanel";
@@ -20,7 +21,6 @@ export default function App() {
   const [reports, setReports] = useState<Reports | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const { user, logout } = useAuth();
 
@@ -91,14 +91,12 @@ export default function App() {
 
   const handleLogout = () => {
     logout();
-    setShowLoginModal(false);
   };
 
   return (
     <div className="app">
       <Header
         isLoggedIn={!!user}
-        onLoginClick={() => setShowLoginModal(true)}
         onLogoutClick={handleLogout}
         username={user?.username}
       />
@@ -106,6 +104,11 @@ export default function App() {
       <main className="app-main">
         <div className="container">
           <section className="editor-section">
+            <div className="workspace-intro">
+              <h2>Workspace</h2>
+              <p>Paste Python code or upload multiple files for a full project review.</p>
+            </div>
+
             <Editor
               value={filesText}
               onChange={setFilesText}
@@ -113,12 +116,32 @@ export default function App() {
             />
             <FileUpload onFilesSelected={handleFilesUpload} disabled={loading} />
             <div className="controls">
+              <div className={`status-pill ${user ? "ready" : "auth-required"}`}>
+                {user ? (
+                  <ShieldCheck size={14} className="status-icon" aria-hidden="true" />
+                ) : (
+                  <Lock size={14} className="status-icon" aria-hidden="true" />
+                )}
+                {user
+                  ? `Signed in as ${user.username}`
+                  : "Sign in from the header to run analysis"}
+              </div>
               <button
                 className="analyze-btn"
                 onClick={handleAnalyze}
                 disabled={loading || !filesText.trim()}
               >
-                {loading ? "🔄 Analyzing..." : "🔍 Analyze"}
+                {loading ? (
+                  <>
+                    <Loader2 size={16} className="btn-icon spin" aria-hidden="true" />
+                    Analyzing...
+                  </>
+                ) : (
+                  <>
+                    <ScanSearch size={16} className="btn-icon" aria-hidden="true" />
+                    Analyze
+                  </>
+                )}
               </button>
             </div>
           </section>

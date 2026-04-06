@@ -14,11 +14,19 @@ export const Editor: React.FC<EditorProps> = ({
   placeholder = "Paste Python code here...",
   disabled = false,
 }) => {
+  const lineCount = value.length > 0 ? value.split(/\r?\n/).length : 0;
+  const wordCount = value.trim().length > 0 ? value.trim().split(/\s+/).length : 0;
+
   return (
     <div className="editor-container">
       <div className="editor-header">
         <h2>Code Editor</h2>
-        <span className="char-count">{value.length} characters</span>
+        <div className="editor-meta">
+          <span className="editor-tag">Python</span>
+          <span className="char-count">
+            {lineCount} lines | {wordCount} words | {value.length} chars
+          </span>
+        </div>
       </div>
       <textarea
         className="editor-textarea"

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FileCode2, UploadCloud } from "lucide-react";
 import "../styles/editor.css";
 
 interface FileUploadProps {
@@ -11,6 +12,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   disabled = false,
 }) => {
   const [dragActive, setDragActive] = useState(false);
+  const [selectedCount, setSelectedCount] = useState(0);
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -39,28 +41,33 @@ export const FileUpload: React.FC<FileUploadProps> = ({
 
   const processFiles = (fileList: FileList) => {
     const fileMap: Record<string, string> = {};
+    const pythonFiles = Array.from(fileList).filter((file) => file.name.endsWith(".py"));
     let processed = 0;
 
-    Array.from(fileList).forEach((file) => {
-      if (file.name.endsWith(".py")) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          if (e.target?.result) {
-            fileMap[file.name] = e.target.result as string;
-            processed++;
-            if (processed === fileList.length) {
-              onFilesSelected(fileMap);
-            }
+    if (pythonFiles.length === 0) {
+      setSelectedCount(0);
+      return;
+    }
+
+    pythonFiles.forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target?.result) {
+          fileMap[file.name] = e.target.result as string;
+          processed++;
+          if (processed === pythonFiles.length) {
+            setSelectedCount(Object.keys(fileMap).length);
+            onFilesSelected(fileMap);
           }
-        };
-        reader.readAsText(file);
-      }
+        }
+      };
+      reader.readAsText(file);
     });
   };
 
   return (
     <div
-      className={`file-upload ${dragActive ? "active" : ""}`}
+      className={`file-upload ${dragActive ? "active" : ""} ${disabled ? "disabled" : ""}`}
       onDragEnter={handleDrag}
       onDragLeave={handleDrag}
       onDragOver={handleDrag}
@@ -77,9 +84,17 @@ export const FileUpload: React.FC<FileUploadProps> = ({
       />
       <label htmlFor="file-input" className="upload-label">
         <div className="upload-content">
-          <span className="upload-icon">📁</span>
-          <p>Drag Python files here or click to select</p>
-          <p className="upload-hint">.py files only</p>
+          <span className="upload-icon" aria-hidden="true">
+            <UploadCloud size={28} />
+          </span>
+          <p>Drop Python files here or click to browse</p>
+          <p className="upload-hint">Only `.py` files are imported</p>
+          {selectedCount > 0 && (
+            <p className="upload-selected">
+              <FileCode2 size={13} className="btn-icon" aria-hidden="true" />
+              {selectedCount} file{selectedCount > 1 ? "s" : ""} loaded
+            </p>
+          )}
         </div>
       </label>
     </div>
